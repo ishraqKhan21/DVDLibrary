@@ -1,40 +1,30 @@
 package com.m3.dvdlibrary.controller;
 
+import com.m3.dvdlibrary.dao.DvdLibraryFileImpl;
+import com.m3.dvdlibrary.dto.DVD;
+import com.m3.dvdlibrary.ui.DvdLibraryView;
 import com.m3.dvdlibrary.ui.UserIO;
 import com.m3.dvdlibrary.ui.UserIOConsoleImpl;
 
 /**
- * @author Ronald Gedeon; email: gedemarcel0002@hotmail.com;  
- * gitRepo: https://github.com/gedegithub/C223-JavaDev.git 
- * Design of a class ... on month day, year
+ * @author Ronald Gedeon; email: gedemarcel0002@hotmail.com; gitRepo:
+ * https://github.com/gedegithub/C223-JavaDev.git Design of a class ... on month
+ * day, year
  */
 public class DvdLibraryController {
-    private UserIO io = new UserIOConsoleImpl();
+
+    private final DvdLibraryFileImpl dao = new DvdLibraryFileImpl();
+    private final DvdLibraryView view = new DvdLibraryView();
+    private final UserIO io = new UserIOConsoleImpl();
 
     public void run() {
         boolean keepGoing = true;
-        int menuSelection = 0;
+        int menuSelection;
         while (keepGoing) {
-            io.print("\nMain Menu");
-            io.print("1. Add One DVD to the Collection");
-            io.print("2. Add a List of DVDs to Collection");
-            io.print("3. Remove One DVD from the Collection");
-            io.print("4. Remove a List of DVDs to Collection");
-            io.print("5. Update/Edit One DVD info in the Collection");
-            io.print("6. Update/Edit a List of DVDs to Collection");
-            io.print("7. List all the DVDs in the Collection");
-            io.print("8. Display one DVD Info");
-            io.print("9. Search for a DVD by Title");
-            io.print("10. Load DVD Library from the File");
-            io.print("11. Save DVD Library back to the File when program completes");
-            io.print("12. Exit\n");
-            
-            menuSelection = io.readInt("Please select from the"
-                    + " above choices.", 1, 12);
-
+            menuSelection = view.printMenuAndGetSelection();
             switch (menuSelection) {
                 case 1:
-                    io.print("ADD ONE DVD TO THE COLLECTION");
+                    createDVD();
                     break;
                 case 2:
                     io.print("ADD A LIST OF DVDs TO THE COLLECTION");
@@ -55,16 +45,16 @@ public class DvdLibraryController {
                     io.print("LIST ALL THE DVDs IN THE COLLECTION");
                 case 8:
                     io.print("DISPLAY ONE DVD INFO");
-                    break;    
+                    break;
                 case 9:
                     io.print("SEARCH FOR ONE DVD BY TITLE");
                     break;
                 case 10:
                     io.print("LOAD DVD LIBRARY FROM THE FILE");
-                    break;   
+                    break;
                 case 11:
                     io.print("SAVE DVD LIBRARY BACK TO THE FILE WHEN PROGRAM COMPLETES");
-                    break;    
+                    break;
                 case 12:
                     keepGoing = false;
                     break;
@@ -75,5 +65,11 @@ public class DvdLibraryController {
         }
         io.print("GOOD BYE");
     }
-}
 
+    private void createDVD() {
+        view.displayCreateDVDBanner();
+        DVD newDVD = view.getNewDVDInfo();
+        dao.addDVD(newDVD.getTitle(), newDVD);
+        view.displayCreateSuccessBanner();
+    }
+}
