@@ -10,11 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
 /**
- * @author Ronald Gedeon; email: gedemarcel0002@hotmail.com; gitRepo:
- * https://github.com/gedegithub/C223-JavaDev.git Design of a class ... on month
- * day, year
+ * @author Ishraq Khan && Ronald Gedeon && Brandon Turner; 
+ * gitRepo: https://github.com/ishraqKhan21/DVDLibrary.git 
+ * A class that implements the behavior of DAO interface for a File storage, on April 6, 2022
  */
 public class DvdLibraryFileImpl implements DvdLibraryDao {
 

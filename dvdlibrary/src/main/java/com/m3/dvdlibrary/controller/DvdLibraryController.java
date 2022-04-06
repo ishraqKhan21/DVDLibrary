@@ -8,15 +8,20 @@ import com.m3.dvdlibrary.ui.UserIOConsoleImpl;
 import java.util.List;
 
 /**
- * @author Ronald Gedeon; email: gedemarcel0002@hotmail.com; gitRepo:
- * https://github.com/gedegithub/C223-JavaDev.git Design of a class ... on month
- * day, year
+ * @author Ishraq Khan && Ronald Gedeon && Brandon Turner; 
+ * gitRepo: https://github.com/ishraqKhan21/DVDLibrary.git 
+ * Class controller which is the brain of the app (delegation & coordination of all other neighbor classes), on April 6, 2022
  */
 public class DvdLibraryController {
+    
+    DvdLibraryFileImpl dao = new DvdLibraryFileImpl();
+        DvdLibraryView view = new DvdLibraryView();
+        UserIOConsoleImpl io = new UserIOConsoleImpl();
 
-    private final DvdLibraryFileImpl dao = new DvdLibraryFileImpl();
-    private final DvdLibraryView view = new DvdLibraryView();
-    private final UserIO io = new UserIOConsoleImpl();
+    // Fields to be injectes
+//    private final DvdLibraryFileImpl dao; 
+//    private final DvdLibraryView view; 
+//    private final UserIO io; 
 
     public void run() {
         boolean keepGoing = true;

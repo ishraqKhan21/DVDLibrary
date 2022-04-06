@@ -1,13 +1,11 @@
 package com.m3.dvdlibrary.ui;
 
 import java.util.Scanner;
-
 /**
- * @author Ronald Gedeon; email: gedemarcel0002@hotmail.com;  
- * gitRepo: https://github.com/gedegithub/C223-JavaDev.git 
- * Design of a class ... on month day, year
+ * @author Ishraq Khan && Ronald Gedeon && Brandon Turner; 
+ * gitRepo: https://github.com/ishraqKhan21/DVDLibrary.git 
+ * A class that implements the behavior of UserIO interface for the console, on April 6, 2022
  */
-
 public class UserIOConsoleImpl implements UserIO {
     
     public static Scanner userInput = new Scanner(System.in); // Scanner to read user input from the console

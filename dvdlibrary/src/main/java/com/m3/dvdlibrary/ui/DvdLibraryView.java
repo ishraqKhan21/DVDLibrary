@@ -3,11 +3,10 @@ package com.m3.dvdlibrary.ui;
 import com.m3.dvdlibrary.dto.DVD;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
- * @author Ronald Gedeon; email: gedemarcel0002@hotmail.com; gitRepo:
- * https://github.com/gedegithub/C223-JavaDev.git Design of a class ... on month
- * day, year
+ * @author Ishraq Khan && Ronald Gedeon && Brandon Turner; 
+ * gitRepo: https://github.com/ishraqKhan21/DVDLibrary.git 
+ * Class View that delegates responsibility to the user interface class, on April 6, 2022
  */
 public class DvdLibraryView {
 

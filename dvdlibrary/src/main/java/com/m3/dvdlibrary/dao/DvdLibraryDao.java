@@ -4,9 +4,9 @@ import com.m3.dvdlibrary.dto.DVD;
 import java.util.List;
 
 /**
- * @author Ronald Gedeon; email: gedemarcel0002@hotmail.com;  
- * gitRepo: https://github.com/gedegithub/C223-JavaDev.git 
- * Design of an interface defining ... on month day, year
+ * @author Ishraq Khan && Ronald Gedeon && Brandon Turner; 
+ * gitRepo: https://github.com/ishraqKhan21/DVDLibrary.git 
+ * Interface with all mandatory behavior methods available for reading & saving data to a storage, on April 6, 2022
  */
 public interface DvdLibraryDao {
 
