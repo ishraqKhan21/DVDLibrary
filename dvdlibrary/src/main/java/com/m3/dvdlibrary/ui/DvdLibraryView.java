@@ -89,4 +89,71 @@ public class DvdLibraryView {
     public int getUserNbrOfDVDs() {
         return io.readInt("Please enter the number of DVDs you wish to add", 1, 5);
     }
+    
+        public void displayDVDList(List<DVD> dvdList) {
+        for (DVD currentDvd : dvdList) {
+            String studentInfo = String.format("%s : %s : %s : %s : %s : %s",
+                    currentDvd.getTitle(),
+                    currentDvd.getReleaseDate(),
+                    currentDvd.getMpaaRating(),
+                    currentDvd.getDirectorName(),
+                    currentDvd.getStudio(),
+                    currentDvd.getReview());
+            io.print(studentInfo);
+        }
+        io.readString("Please hit enter to continue.");
+    }
+
+    public void displayDisplayAllBanner() {
+        io.print("=== Display All DVDs ===");
+    }
+
+    public void displayDisplayDVDBanner() {
+        io.print("=== Display DVD ===");
+    }
+
+    public String getDVDTitle() {
+        return io.readString("Please enter the DVD title.");
+    }
+
+    public void displayDVD(DVD dvd) {
+        if (dvd != null) {
+            io.print("Title: " + dvd.getTitle());
+            io.print("Release Date: " + dvd.getReleaseDate());
+            io.print("MPAA Rating: " + dvd.getMpaaRating());
+            io.print("Director's Name: " + dvd.getDirectorName());
+            io.print("Studio: " + dvd.getStudio());
+            io.print("Review: " + dvd.getReview());
+            io.print("");
+        } else {
+            io.print("No such DVD.");
+        }
+        io.readString("Please hit enter to continue.");
+    }
+
+    public void displayRemoveDVDBanner() {
+        io.print("=== Remove DVD ===");
+    }
+
+    public void displayRemoveResult(DVD dvdRecord) {
+        if (dvdRecord != null) {
+            io.print("DVD successfully removed.");
+        } else {
+            io.print("There's no DVD by this title");
+        }
+        io.readString("Please hit enter to continue.");
+    }
+
+    public void displaySearchDVDBanner() {
+        io.print("=== Search if DVD in Library ===");
+    }
+
+    public void displaySearchDVD(DVD dvd) {
+        if (dvd != null) {
+            io.print("Yes, DVD is in the library.");
+        } else {
+            io.print("No, DVD is not in the library.");
+        }
+        io.readString("Please hit enter to continue.");
+    }
 }
