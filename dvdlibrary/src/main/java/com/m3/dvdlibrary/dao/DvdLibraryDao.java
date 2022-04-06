@@ -28,8 +28,8 @@ public interface DvdLibraryDao {
         
         void displayDVDinfo(DVD dvd, String info); // display dvd.get(info)
         
-        void loadDVDs(); // load DVDs library from the File
+        void loadDVDs()throws Exception; // load DVDs library from the File
         
-        void saveDVDs(); // save DVDs library back to the File
+        void saveDVDs()throws Exception; // save DVDs library back to the File
         
 }

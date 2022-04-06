@@ -87,7 +87,7 @@ public class DvdLibraryView {
     }
 
     public int getUserNbrOfDVDs() {
-        return io.readInt("Please enter the number of DVDs you wish to add", 1, 5);
+        return io.readInt("Please enter the number of DVDs you wish to add", 1, 10);
     }
     
         public void displayDVDList(List<DVD> dvdList) {
@@ -155,5 +155,23 @@ public class DvdLibraryView {
             io.print("No, DVD is not in the library.");
         }
         io.readString("Please hit enter to continue.");
+    }
+    
+      public void displayLoadingDVDBanner() {
+        io.print("=== Loading DVDs ===");
+    }
+      
+     public void displayLoadingDVDSuccessBanner() {
+        io.readString(
+                "DVD successfully loaded && Please hit enter to continue.");
+    }
+     
+        public void displaySavingDVDBanner() {
+        io.print("=== Loading DVDs ===");
+    }
+      
+     public void displaySavingDVDSuccessBanner() {
+        io.readString(
+                "DVD successfully loaded && Please hit enter to continue.");
     }
 }
