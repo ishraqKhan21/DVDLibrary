@@ -16,13 +16,13 @@ public class DVD {
     private String directorName;
     private String studio;
     private String review;
+    
+    public DVD(String title) {
+        this.title = title;
+    }
 
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getReleaseDate() {
