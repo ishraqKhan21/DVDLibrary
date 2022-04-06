@@ -10,11 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
 /**
- * @author Ronald Gedeon; email: gedemarcel0002@hotmail.com; gitRepo:
- * https://github.com/gedegithub/C223-JavaDev.git Design of a class ... on month
- * day, year
+ * @author Ishraq Khan && Ronald Gedeon && Brandon Turner; 
+ * gitRepo: https://github.com/ishraqKhan21/DVDLibrary.git 
+ * A class that implements the behavior of DAO interface for a File storage, on April 6, 2022
  */
 public class DvdLibraryFileImpl implements DvdLibraryDao {
 
@@ -92,6 +91,7 @@ public class DvdLibraryFileImpl implements DvdLibraryDao {
         out.close(); // Releasing ressources / Clean up
     }
 
+
     @Override
     public DVD addDVD(String title, DVD dvd) {
         DVD previousDVD = DVDs.put(title, dvd); // previous Value of the key 
@@ -142,7 +142,7 @@ public class DvdLibraryFileImpl implements DvdLibraryDao {
 
     @Override
     public List<DVD> getAllDVDs() {
-        return new ArrayList<DVD>(DVDs.values());
+        return new ArrayList<>(DVDs.values());
     }
 
     @Override
@@ -150,17 +150,42 @@ public class DvdLibraryFileImpl implements DvdLibraryDao {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+// Load DVD: Read the File and unmarshall it line by line to the virtual memory
     @Override
-    public void loadDVDs() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void loadDVDs() throws Exception {
+        Scanner scanner;
+        scanner = new Scanner(
+                new BufferedReader(
+                        new FileReader(DVDs_FILE)));
+
+        String currentLine; // currentLine holds the most recent line read from the file
+        DVD currentDVD;  // currentDVD holds the most recent DVD unmarshalled
+
+        while (scanner.hasNextLine()) {
+            currentLine = scanner.nextLine();
+            currentDVD = unMarshallDVD(currentLine);
+
+            DVDs.put(currentDVD.getTitle(), currentDVD);
+        }
+        // releaseing ressources
+        scanner.close();
     }
 
+    // Save DVDs: iterate through the HashMap and marshall each object && write it to the File.
     @Override
-    public void saveDVDs() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public void saveDVDs() throws Exception {
+        PrintWriter out;
+        out = new PrintWriter(new FileWriter(DVDs_FILE));
 
-    public void searchDVDs(String title) {
-    }
+        String dvdAsText;
+        List<DVD> dvdList = this.getAllDVDs();
 
+
+        for (DVD currentDVD : dvdList) {
+            dvdAsText = marshallDVD(currentDVD);  // turn a DVD into a String
+            out.println(dvdAsText);  // write the DVD object to the file
+            out.flush(); // force PrintWriter to write the line to the file as we don't know its buffer capacity
+        }
+        out.close(); // Releasing ressources / Clean up
+    }
 }

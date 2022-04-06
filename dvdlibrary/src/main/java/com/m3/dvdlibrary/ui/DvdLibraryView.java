@@ -3,11 +3,10 @@ package com.m3.dvdlibrary.ui;
 import com.m3.dvdlibrary.dto.DVD;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
- * @author Ronald Gedeon; email: gedemarcel0002@hotmail.com; gitRepo:
- * https://github.com/gedegithub/C223-JavaDev.git Design of a class ... on month
- * day, year
+ * @author Ishraq Khan && Ronald Gedeon && Brandon Turner; 
+ * gitRepo: https://github.com/ishraqKhan21/DVDLibrary.git 
+ * Class View that delegates responsibility to the user interface class, on April 6, 2022
  */
 public class DvdLibraryView {
 
@@ -87,7 +86,7 @@ public class DvdLibraryView {
     }
 
     public int getUserNbrOfDVDs() {
-        return io.readInt("Please enter the number of DVDs you wish to add", 1, 5);
+        return io.readInt("Please enter the number of DVDs you wish to add", 1, 10);
     }
     
     public int getUserNbrOfDvdsToRemove() {
@@ -187,5 +186,25 @@ public class DvdLibraryView {
         io.readString("DVD's successfully removed && Please hit enter to continue.");
     }
     
+
+
+    
+      public void displayLoadingDVDBanner() {
+        io.print("=== Loading DVDs ===");
+    }
+      
+     public void displayLoadingDVDSuccessBanner() {
+        io.readString(
+                "DVD successfully loaded && Please hit enter to continue.");
+    }
+     
+        public void displaySavingDVDBanner() {
+        io.print("=== Loading DVDs ===");
+    }
+      
+     public void displaySavingDVDSuccessBanner() {
+        io.readString(
+                "DVD successfully loaded && Please hit enter to continue.");
+    }
 
 }

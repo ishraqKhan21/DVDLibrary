@@ -1,9 +1,9 @@
 package com.m3.dvdlibrary.dto;
 
 /**
- * @author Ronald Gedeon; email: gedemarcel0002@hotmail.com;  
- * gitRepo: https://github.com/gedegithub/C223-JavaDev.git 
- * Design of a class ... on month day, year
+ * @author Ishraq Khan && Ronald Gedeon && Brandon Turner; 
+ * gitRepo: https://github.com/ishraqKhan21/DVDLibrary.git 
+ * Class for domain objects or data transfer objects of the App, on April 6, 2022
  */
 public class DVD {
 
