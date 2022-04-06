@@ -16,7 +16,7 @@ public interface DvdLibraryDao {
         
         DVD removeDVD(String title);
         
-        List<DVD> removeDVDs(String[] titles, DVD dvds);
+        void removeDVDs(List<DVD> titles);
         
         DVD updateDVD(String title, DVD dvd);// call addDVD
         

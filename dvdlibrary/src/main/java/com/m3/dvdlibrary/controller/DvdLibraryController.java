@@ -34,10 +34,10 @@ public class DvdLibraryController {
                     removeDVD();
                     break;
                 case 4:
-                    io.print("REMOVE A LIST OF DVDs FROM THE COLLECTION");
+                    removeDVDs();
                     break;
                 case 5:
-                    io.print("UPDATE/EDIT ONE DVDs INFO IN THE COLLECTION");
+                    updateTheDVD();
                     break;
                 case 6:
                     updateDVDs();
@@ -88,7 +88,8 @@ public class DvdLibraryController {
         dao.updateDVDs(newDVDs);
         view.displayUpdateCollectionDVDsSuccessBanner();
     }
-        private void listDVDs() {
+
+    private void listDVDs() {
         view.displayDisplayAllBanner();
         List<DVD> dvdList = dao.getAllDVDs();
         view.displayDVDList(dvdList);
@@ -100,18 +101,32 @@ public class DvdLibraryController {
         DVD dvd = dao.getDVD(title);
         view.displayDVD(dvd);
     }
-    
+
     private void removeDVD() {
-    view.displayRemoveDVDBanner();
-    String title = view.getDVDTitle();
-    DVD removedDVD = dao.removeDVD(title);
-    view.displayRemoveResult(removedDVD);
-}
-    
+        view.displayRemoveDVDBanner();
+        String title = view.getDVDTitle();
+        DVD removedDVD = dao.removeDVD(title);
+        view.displayRemoveResult(removedDVD);
+    }
+
     private void searchDVD() {
         view.displaySearchDVDBanner();
         String title = view.getDVDTitle();
         DVD dvd = dao.getDVD(title);
         view.displaySearchDVD(dvd);
     }
+
+    private void updateTheDVD() {
+        view.displayUpdateBanner();
+        DVD updatedDVD = view.getNewDVDInfo();
+        dao.updateDVD(updatedDVD.getTitle(), updatedDVD);
+        view.displayUpdateSuccessBanner();
+    }
+    
+    private void removeDVDs() {
+        view.displayRemoveCollectionDVDsBanner();
+        dao.removeDVDs(view.getCollectionDVDInfoToRemove());
+        view.displayRemoveCollectionDVDsSuccessBanner();
+    }
+
 }

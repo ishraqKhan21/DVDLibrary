@@ -90,7 +90,20 @@ public class DvdLibraryView {
         return io.readInt("Please enter the number of DVDs you wish to add", 1, 5);
     }
     
-        public void displayDVDList(List<DVD> dvdList) {
+    public int getUserNbrOfDvdsToRemove() {
+        return io.readInt("Please enter the number of DVDs you wish to remove", 1, 10);
+    }
+    
+    public List<DVD> getCollectionDVDInfoToRemove() {
+        List<DVD> dvds = new ArrayList<>();
+        for (int i = getUserNbrOfDvdsToRemove(); i > 0; i--) {
+            DVD singleDVD = getNewDVDInfo();
+            dvds.add(singleDVD);
+        }
+        return dvds;
+    }
+
+    public void displayDVDList(List<DVD> dvdList) {
         for (DVD currentDvd : dvdList) {
             String studentInfo = String.format("%s : %s : %s : %s : %s : %s",
                     currentDvd.getTitle(),
@@ -156,4 +169,23 @@ public class DvdLibraryView {
         }
         io.readString("Please hit enter to continue.");
     }
+
+    public void displayUpdateBanner() {
+        io.print("=== Update DVD ===");
+    }
+
+    public void displayUpdateSuccessBanner() {
+        io.readString(
+                "DVD successfully updated && Please hit enter to continue.");
+    }
+
+    public void displayRemoveCollectionDVDsBanner() {
+        io.readString("=== Remove given DVDs");
+    }
+
+    public void displayRemoveCollectionDVDsSuccessBanner() {
+        io.readString("DVD's successfully removed && Please hit enter to continue.");
+    }
+    
+
 }
