@@ -106,7 +106,8 @@ public class DvdLibraryFileImpl implements DvdLibraryDao {
 
     @Override
     public DVD removeDVD(String title) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        DVD removedDVD = DVDs.remove(title);
+        return removedDVD;
     }
 
     @Override
@@ -126,12 +127,12 @@ public class DvdLibraryFileImpl implements DvdLibraryDao {
 
     @Override
     public DVD getDVD(String title) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return DVDs.get(title);
     }
 
     @Override
     public List<DVD> getAllDVDs() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new ArrayList<DVD>(DVDs.values());
     }
 
     @Override
@@ -148,5 +149,7 @@ public class DvdLibraryFileImpl implements DvdLibraryDao {
     public void saveDVDs() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    public void searchDVDs(String title){}
 
 }
