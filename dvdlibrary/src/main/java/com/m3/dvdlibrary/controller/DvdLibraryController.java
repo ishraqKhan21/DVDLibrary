@@ -5,6 +5,7 @@ import com.m3.dvdlibrary.dto.DVD;
 import com.m3.dvdlibrary.ui.DvdLibraryView;
 import com.m3.dvdlibrary.ui.UserIO;
 import com.m3.dvdlibrary.ui.UserIOConsoleImpl;
+import java.util.List;
 
 /**
  * @author Ronald Gedeon; email: gedemarcel0002@hotmail.com; gitRepo:
@@ -27,7 +28,7 @@ public class DvdLibraryController {
                     createDVD();
                     break;
                 case 2:
-                    io.print("ADD A LIST OF DVDs TO THE COLLECTION");
+                    createDVDs();
                     break;
                 case 3:
                     io.print("REMOVE ONE DVD FROM THE COLLECTION");
@@ -39,7 +40,7 @@ public class DvdLibraryController {
                     io.print("UPDATE/EDIT ONE DVDs INFO IN THE COLLECTION");
                     break;
                 case 6:
-                    io.print("UPDATE/EDIT A LIST OF DVDs INFO IN THE COLLECTION");
+                    updateDVDs();
                     break;
                 case 7:
                     io.print("LIST ALL THE DVDs IN THE COLLECTION");
@@ -70,6 +71,20 @@ public class DvdLibraryController {
         view.displayCreateDVDBanner();
         DVD newDVD = view.getNewDVDInfo();
         dao.addDVD(newDVD.getTitle(), newDVD);
-        view.displayCreateSuccessBanner();
+        view.displayCreateDVDSuccessBanner();
+    }
+
+    private void createDVDs() {
+        view.displayCreateCollectionDVDsBanner();
+        List<DVD> newDVDs = view.getCollectionDVDInfo();
+        dao.addDVDs(newDVDs);
+        view.displayCreateCollectionDVDsSuccessBanner();
+    }
+
+    private void updateDVDs() {
+        view.displayUpdateCollectionDVDsBanner();
+        List<DVD> newDVDs = view.getCollectionDVDInfo();
+        dao.updateDVDs(newDVDs);
+        view.displayUpdateCollectionDVDsSuccessBanner();
     }
 }

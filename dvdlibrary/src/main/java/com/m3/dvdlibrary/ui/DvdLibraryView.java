@@ -1,6 +1,8 @@
 package com.m3.dvdlibrary.ui;
 
 import com.m3.dvdlibrary.dto.DVD;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Ronald Gedeon; email: gedemarcel0002@hotmail.com; gitRepo:
@@ -47,13 +49,44 @@ public class DvdLibraryView {
 
         return dvd;
     }
-    
+
+    public List<DVD> getCollectionDVDInfo() {
+        List<DVD> dvds = new ArrayList<>();
+        for (int i = getUserNbrOfDVDs(); i > 0; i--) {
+            DVD singleDVD = getNewDVDInfo();
+            dvds.add(singleDVD);
+        }
+        return dvds;
+    }
+
     public void displayCreateDVDBanner() {
-    io.print("=== Create DVD ===");
-}
-    
-  public void displayCreateSuccessBanner() {
-    io.readString(
-            "DVD successfully created && Please hit enter to continue.");
-}
+        io.print("=== Create DVD ===");
+    }
+
+    public void displayCreateDVDSuccessBanner() {
+        io.readString(
+                "DVD successfully created && Please hit enter to continue.");
+    }
+
+    public void displayCreateCollectionDVDsBanner() {
+        io.print("=== Create Collection of DVDs ===");
+    }
+
+    public void displayCreateCollectionDVDsSuccessBanner() {
+        io.readString(
+                "Collection of DVDs successfully created && Please hit enter to continue.");
+    }
+
+    public void displayUpdateCollectionDVDsBanner() {
+        io.print("=== Update Collection of DVDs ===");
+    }
+
+    public void displayUpdateCollectionDVDsSuccessBanner() {
+        io.readString(
+                "Collection of DVDs successfully updated && Please hit enter to continue.");
+    }
+
+    public int getUserNbrOfDVDs() {
+        return io.readInt("Please enter the number of DVDs you wish to add", 1, 5);
+    }
 }

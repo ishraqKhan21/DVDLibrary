@@ -12,7 +12,7 @@ public interface DvdLibraryDao {
 
         DVD addDVD(String title, DVD dvd);
         
-        List<DVD> addDVDs(String[] titles, DVD dvds);
+        void addDVDs(List<DVD> dvds);
         
         DVD removeDVD(String title);
         
@@ -20,7 +20,7 @@ public interface DvdLibraryDao {
         
         DVD updateDVD(String title, DVD dvd);// call addDVD
         
-        DVD updateDVDs(String[] titles, DVD dvds);// call addDVDs
+        void updateDVDs(List<DVD> dvds);// call addDVDs
         
         DVD getDVD(String title); // search dvd by title
         
