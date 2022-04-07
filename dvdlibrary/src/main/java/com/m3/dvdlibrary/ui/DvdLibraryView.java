@@ -10,8 +10,19 @@ import java.util.List;
  */
 public class DvdLibraryView {
 
-    private UserIO io = new UserIOConsoleImpl();
+    // Private field to be injected as a dependency
+    private final UserIO io;
 
+    // Constructor dependency
+    public DvdLibraryView(UserIO io) {
+        this.io = io;
+    }
+
+    /**
+     * This method shows the Menu and return the user choice as an int
+     *
+     * @return int
+     */
     public int printMenuAndGetSelection() {
         io.print("\nMain Menu");
         io.print("1. Add One DVD to the Collection");
@@ -31,6 +42,11 @@ public class DvdLibraryView {
                 + " above choices.", 1, 12);
     }
 
+    /**
+     * This method get the DVDs fields from the user to construct DVD object
+     *
+     * @return DVD
+     */
     public DVD getNewDVDInfo() {
         String title = io.readString("Please enter DVD title");
         String releaseDate = io.readString("Please enter DVD releaseDate");
@@ -49,85 +65,63 @@ public class DvdLibraryView {
         return dvd;
     }
 
+    /**
+     * This method get a collection of DVDs fields from the user to construct a
+     * list of DVD objects
+     *
+     * @return List<DVD>
+     */
     public List<DVD> getCollectionDVDInfo() {
         List<DVD> dvds = new ArrayList<>();
-        for (int i = getUserNbrOfDVDs(); i > 0; i--) {
+        for (int i = getUserNbrOfDVDsToAdd(); i > 0; i--) { // side effects
+            io.print("\nPlease enter Info for DVD #" + i);
+            io.print("______________________________");
             DVD singleDVD = getNewDVDInfo();
             dvds.add(singleDVD);
         }
         return dvds;
     }
 
-    public void displayCreateDVDBanner() {
-        io.print("=== Create DVD ===");
+    /**
+     * This method going gets the number of DVDs that the user want to add or
+     * update
+     *
+     * @return int
+     */
+    public int getUserNbrOfDVDsToAdd() {
+        return io.readInt("Please enter the number of DVDs you wish to add or update", 1, 10);
     }
 
-    public void displayCreateDVDSuccessBanner() {
-        io.readString(
-                "DVD successfully created && Please hit enter to continue.");
-    }
-
-    public void displayCreateCollectionDVDsBanner() {
-        io.print("=== Create Collection of DVDs ===");
-    }
-
-    public void displayCreateCollectionDVDsSuccessBanner() {
-        io.readString(
-                "Collection of DVDs successfully created && Please hit enter to continue.");
-    }
-
-    public void displayUpdateCollectionDVDsBanner() {
-        io.print("=== Update Collection of DVDs ===");
-    }
-
-    public void displayUpdateCollectionDVDsSuccessBanner() {
-        io.readString(
-                "Collection of DVDs successfully updated && Please hit enter to continue.");
-    }
-
-    public int getUserNbrOfDVDs() {
-        return io.readInt("Please enter the number of DVDs you wish to add", 1, 10);
-    }
-    
+    /**
+     * This method going gets the number of DVDs that the user want to remove
+     *
+     * @return
+     */
     public int getUserNbrOfDvdsToRemove() {
         return io.readInt("Please enter the number of DVDs you wish to remove", 1, 10);
     }
-    
-    public List<DVD> getCollectionDVDInfoToRemove() {
-        List<DVD> dvds = new ArrayList<>();
-        for (int i = getUserNbrOfDvdsToRemove(); i > 0; i--) {
-            DVD singleDVD = getNewDVDInfo();
-            dvds.add(singleDVD);
+
+    /**
+     * This method get a collection of DVDs titles to be removed
+     *
+     * @return
+     */
+    public List<String> getCollectionDVDsTitleToRemove() {
+        List<String> dvdsTitles = new ArrayList<>();
+        for (int i = getUserNbrOfDvdsToRemove(); i > 0; i--) { // side effects
+            io.print("\nPlease enter Title #" + i);
+            io.print("______________________________");
+            String title = getDVDTitle();
+            dvdsTitles.add(title);
         }
-        return dvds;
+        return dvdsTitles;
     }
 
-    public void displayDVDList(List<DVD> dvdList) {
-        for (DVD currentDvd : dvdList) {
-            String studentInfo = String.format("%s : %s : %s : %s : %s : %s",
-                    currentDvd.getTitle(),
-                    currentDvd.getReleaseDate(),
-                    currentDvd.getMpaaRating(),
-                    currentDvd.getDirectorName(),
-                    currentDvd.getStudio(),
-                    currentDvd.getReview());
-            io.print(studentInfo);
-        }
-        io.readString("Please hit enter to continue.");
-    }
-
-    public void displayDisplayAllBanner() {
-        io.print("=== Display All DVDs ===");
-    }
-
-    public void displayDisplayDVDBanner() {
-        io.print("=== Display DVD ===");
-    }
-
-    public String getDVDTitle() {
-        return io.readString("Please enter the DVD title.");
-    }
-
+    /**
+     * This method just displays all the info of a DVD
+     *
+     * @param dvd
+     */
     public void displayDVD(DVD dvd) {
         if (dvd != null) {
             io.print("Title: " + dvd.getTitle());
@@ -143,10 +137,39 @@ public class DvdLibraryView {
         io.readString("Please hit enter to continue.");
     }
 
-    public void displayRemoveDVDBanner() {
-        io.print("=== Remove DVD ===");
+    /**
+     * This method just displays a list of DVDs
+     *
+     * @param dvdList
+     */
+    public void displayDVDList(List<DVD> dvdList) {
+        for (DVD currentDvd : dvdList) {
+            String studentInfo = String.format("%s : %s : %s : %s : %s : %s",
+                    currentDvd.getTitle(),
+                    currentDvd.getReleaseDate(),
+                    currentDvd.getMpaaRating(),
+                    currentDvd.getDirectorName(),
+                    currentDvd.getStudio(),
+                    currentDvd.getReview());
+            io.print(studentInfo);
+        }
+        io.readString("Please hit enter to continue.");
     }
 
+    /**
+     * This method just return a DVD title
+     *
+     * @return
+     */
+    public String getDVDTitle() {
+        return io.readString("Please enter the DVD title.");
+    }
+
+    /**
+     * This method is a helper for removing a DVD in collection
+     *
+     * @param dvdRecord
+     */
     public void displayRemoveResult(DVD dvdRecord) {
         if (dvdRecord != null) {
             io.print("DVD successfully removed.");
@@ -156,10 +179,11 @@ public class DvdLibraryView {
         io.readString("Please hit enter to continue.");
     }
 
-    public void displaySearchDVDBanner() {
-        io.print("=== Search if DVD in Library ===");
-    }
-
+    /**
+     * This method is a helper for searching a DVD in collection
+     *
+     * @param dvd
+     */
     public void displaySearchDVD(DVD dvd) {
         if (dvd != null) {
             io.print("Yes, DVD is in the library.");
@@ -169,42 +193,90 @@ public class DvdLibraryView {
         io.readString("Please hit enter to continue.");
     }
 
-    public void displayUpdateBanner() {
-        io.print("=== Update DVD ===");
+    /* A bunch of Banner methods that are for good presentation only */
+    public void displayCreateDVDBanner() {
+        io.print("=== Create DVD ===");
     }
 
-    public void displayUpdateSuccessBanner() {
+    public void displayCreateDVDSuccessBanner() { // Banner of success
+        io.readString(
+                "DVD successfully created && Please hit enter to continue.");
+    }
+
+    public void displayCreateCollectionDVDsBanner() {
+        io.print("=== Create Collection of DVDs ===");
+    }
+
+    public void displayCreateCollectionDVDsSuccessBanner() { // Banner
+        io.readString(
+                "Collection of DVDs successfully created && Please hit enter to continue.");
+    }
+
+    public void displayUpdateCollectionDVDsBanner() {
+        io.print("=== Update Collection of DVDs ===");
+    }
+
+    public void displayUpdateCollectionDVDsSuccessBanner() { // Banner
+        io.readString(
+                "Collection of DVDs successfully updated && Please hit enter to continue.");
+    }
+
+    public void displayDisplayAllBanner() {
+        io.print("=== Display All DVDs ===");
+    }
+
+    public void displayDisplayDVDBanner() {
+        io.print("=== Display DVD ===");
+    }
+
+    public void displayRemoveDVDBanner() {
+        io.print("=== Remove DVD ===");
+    }
+
+    public void displaySearchDVDBanner() {
+        io.print("=== Search if DVD in Library ===");
+    }
+
+    public void displayUpdateBanner() {
+        io.print("=== Update one DVD identified by its title ===");
+    }
+
+    public void displayUpdateSuccessBanner() { // Banner
         io.readString(
                 "DVD successfully updated && Please hit enter to continue.");
     }
 
     public void displayRemoveCollectionDVDsBanner() {
-        io.readString("=== Remove given DVDs");
+        io.print("=== Remove Collection of DVDs");
     }
 
-    public void displayRemoveCollectionDVDsSuccessBanner() {
+    public void displayRemoveCollectionDVDsSuccessBanner() { // Banner
         io.readString("DVD's successfully removed && Please hit enter to continue.");
     }
-    
 
-
-    
-      public void displayLoadingDVDBanner() {
+    public void displayLoadingDVDBanner() {
         io.print("=== Loading DVDs ===");
     }
-      
-     public void displayLoadingDVDSuccessBanner() {
-        io.readString(
-                "DVD successfully loaded && Please hit enter to continue.");
-    }
-     
-        public void displaySavingDVDBanner() {
-        io.print("=== Loading DVDs ===");
-    }
-      
-     public void displaySavingDVDSuccessBanner() {
+
+    public void displayLoadingDVDSuccessBanner() { // Banner
         io.readString(
                 "DVD successfully loaded && Please hit enter to continue.");
     }
 
+    public void displaySavingDVDBanner() {
+        io.print("=== Loading DVDs ===");
+    }
+
+    public void displaySavingDVDSuccessBanner() { // Banner
+        io.readString(
+                "DVD successfully loaded && Please hit enter to continue.");
+    }
+
+    public void displayUnknownCommandBanner() {
+        io.print("Unknown Command!!!");
+    }
+
+    public void displayExitBanner() {
+        io.print("Good Bye!!!");
+    }
 }

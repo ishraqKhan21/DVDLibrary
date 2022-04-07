@@ -3,123 +3,93 @@ package com.m3.dvdlibrary.controller;
 import com.m3.dvdlibrary.dao.DvdLibraryFileImpl;
 import com.m3.dvdlibrary.dto.DVD;
 import com.m3.dvdlibrary.ui.DvdLibraryView;
-import com.m3.dvdlibrary.ui.UserIO;
-import com.m3.dvdlibrary.ui.UserIOConsoleImpl;
 import java.util.List;
-
 /**
  * @author Ishraq Khan && Ronald Gedeon && Brandon Turner; 
  * gitRepo: https://github.com/ishraqKhan21/DVDLibrary.git 
  * Class controller which is the brain of the app (delegation & coordination of all other neighbor classes), on April 6, 2022
  */
 public class DvdLibraryController {
-    
-    DvdLibraryFileImpl dao = new DvdLibraryFileImpl();
-        DvdLibraryView view = new DvdLibraryView();
-        UserIOConsoleImpl io = new UserIOConsoleImpl();
 
-    // Fields to be injectes
-//    private final DvdLibraryFileImpl dao; 
-//    private final DvdLibraryView view; 
-//    private final UserIO io; 
+    // Fields to be injected as dependencies
+    private final DvdLibraryFileImpl dao;
+    private final DvdLibraryView view;
 
+    // Construction injection
+    public DvdLibraryController(DvdLibraryFileImpl dao, DvdLibraryView view) {
+        this.dao = dao;
+        this.view = view;
+    }
+
+    /**
+     * This method holds all the business logic of the App.
+     */
     public void run() {
         boolean keepGoing = true;
         int menuSelection;
 
-        while (keepGoing) {
-            menuSelection = view.printMenuAndGetSelection();
-            switch (menuSelection) {
-                case 1:
-                    createDVD();
-                    break;
-                case 2:
-                    createDVDs();
-                    break;
-                case 3:
-                    removeDVD();
-                    break;
-                case 4:
-                    removeDVDs();
-                    break;
-                case 5:
-                    updateTheDVD();
-                    break;
-                case 6:
-                    updateDVDs();
-                    break;
-                case 7:
-                    listDVDs();
-                    break;
-                case 8:
-                    viewDVD();
-                    break;
-                case 9:
-                    searchDVD();
-                    break;
-                case 10:
-                    io.print("LOAD DVD LIBRARY FROM THE FILE");
-                    break;
-                case 11:
-                    io.print("SAVE DVD LIBRARY BACK TO THE FILE WHEN PROGRAM COMPLETES");
-                    break;
-                case 12:
-                    keepGoing = false;
-                    break;
-                default:
-                    io.print("UNKNOWN COMMAND");
-
+        // to catch all the checked exceptions resulting from reading or writing to File
         try {
             while (keepGoing) {
-                menuSelection = view.printMenuAndGetSelection();
+                menuSelection = getMenuSelection();
                 switch (menuSelection) {
                     case 1:
-                        createDVD();
+                        createDVD(); // add a single DVD to Collection
                         break;
                     case 2:
-                        createDVDs();
+                        createDVDs(); // add a list of DVDs to Collection
                         break;
                     case 3:
-                        removeDVD();
+                        removeDVD(); // remove a single DVD from Collection
                         break;
                     case 4:
-                        io.print("REMOVE A LIST OF DVDs FROM THE COLLECTION");
+                        removeDVDs(); // remove a list of DVDs to Collection
                         break;
                     case 5:
-                        io.print("UPDATE/EDIT ONE DVDs INFO IN THE COLLECTION");
+                        updateTheDVD(); // update/edit a single DVD info in Collection
                         break;
                     case 6:
-                        updateDVDs();
+                        updateDVDs(); // update/edit a list of DVDs in Collection
                         break;
                     case 7:
-                        listDVDs();
+                        listDVDs(); // List all the DVDs in Collection
                         break;
                     case 8:
-                        viewDVD();
+                        viewDVD(); // Display one DVD info
                         break;
                     case 9:
-                        searchDVD();
+                        searchDVD(); // search for a DVD by title in Collection to check wether it exists or not
                         break;
                     case 10:
-                        loadAllDVDs();
+                        loadAllDVDs(); // transfer all DVDs record from File to virtual memory (Map)
                         break;
                     case 11:
-                        saveAllDVDs();
+                        saveAllDVDs(); // transfer all DVDs from virtual memory (Map) to File
                         break;
                     case 12:
-                        keepGoing = false;
+                        keepGoing = false; // condition to break out of the while loop
                         break;
                     default:
-                        io.print("UNKNOWN COMMAND");
+                        unknownCommand(); // default option for unknown command
                 }
             }
 
         } catch (Exception e) {
             System.out.println(e);
         }
-        io.print("GOOD BYE");
+        exitMessage();
     }
 
+    /**
+     * This method gets and return menu selection entered by the user.
+     */
+    private int getMenuSelection() {
+        return view.printMenuAndGetSelection();
+    }
+
+    /**
+     * This method gonna just add a DVD in the Map with no return value.
+     */
     private void createDVD() {
         view.displayCreateDVDBanner();
         DVD newDVD = view.getNewDVDInfo();
@@ -127,6 +97,10 @@ public class DvdLibraryController {
         view.displayCreateDVDSuccessBanner();
     }
 
+    /**
+     * This method gonna just add a list of DVDs in the Map with no return
+     * value.
+     */
     private void createDVDs() {
         view.displayCreateCollectionDVDsBanner();
         List<DVD> newDVDs = view.getCollectionDVDInfo();
@@ -134,6 +108,21 @@ public class DvdLibraryController {
         view.displayCreateCollectionDVDsSuccessBanner();
     }
 
+    /**
+     * This method gonna just update a single DVD in the Map with no return
+     * value.
+     */
+    private void updateTheDVD() {
+        view.displayUpdateBanner();
+        DVD updatedDVD = view.getNewDVDInfo();
+        dao.updateDVD(updatedDVD.getTitle(), updatedDVD);
+        view.displayUpdateSuccessBanner();
+    }
+
+    /**
+     * This method gonna just update a list of DVDs in the Map with no return
+     * value.
+     */
     private void updateDVDs() {
         view.displayUpdateCollectionDVDsBanner();
         List<DVD> newDVDs = view.getCollectionDVDInfo();
@@ -141,12 +130,20 @@ public class DvdLibraryController {
         view.displayUpdateCollectionDVDsSuccessBanner();
     }
 
+    /**
+     * This method gonna just display a list of DVDs in the Map with no return
+     * value.
+     */
     private void listDVDs() {
         view.displayDisplayAllBanner();
         List<DVD> dvdList = dao.getAllDVDs();
         view.displayDVDList(dvdList);
     }
 
+    /**
+     * This method gonna just display a single DVD in the Map with no return
+     * value.
+     */
     private void viewDVD() {
         view.displayDisplayDVDBanner();
         String title = view.getDVDTitle();
@@ -154,6 +151,9 @@ public class DvdLibraryController {
         view.displayDVD(dvd);
     }
 
+    /**
+     * This method gonna just delete a DVD in the Map with no return value.
+     */
     private void removeDVD() {
         view.displayRemoveDVDBanner();
         String title = view.getDVDTitle();
@@ -161,6 +161,19 @@ public class DvdLibraryController {
         view.displayRemoveResult(removedDVD);
     }
 
+    /**
+     * This method gonna just delete a list of DVDs in the Map with no return
+     * value.
+     */
+    private void removeDVDs() {
+        view.displayRemoveCollectionDVDsBanner();
+        dao.removeDVDs(view.getCollectionDVDsTitleToRemove());
+        view.displayRemoveCollectionDVDsSuccessBanner();
+    }
+
+    /**
+     * This method gonna just check the existence of a DVD in collection (Map)
+     */
     private void searchDVD() {
         view.displaySearchDVDBanner();
         String title = view.getDVDTitle();
@@ -168,29 +181,34 @@ public class DvdLibraryController {
         view.displaySearchDVD(dvd);
     }
 
-    private void updateTheDVD() {
-        view.displayUpdateBanner();
-        DVD updatedDVD = view.getNewDVDInfo();
-        dao.updateDVD(updatedDVD.getTitle(), updatedDVD);
-        view.displayUpdateSuccessBanner();
-    }
-    
-    private void removeDVDs() {
-        view.displayRemoveCollectionDVDsBanner();
-        dao.removeDVDs(view.getCollectionDVDInfoToRemove());
-        view.displayRemoveCollectionDVDsSuccessBanner();
-    }
-
-
+    /**
+     * This method gonna just unMarshall the File and transfer the DVDs objects
+     * to virtual memory (Map)
+     */
     private void loadAllDVDs() throws Exception {
         view.displayLoadingDVDBanner();
         dao.loadDVDs();
         view.displayLoadingDVDSuccessBanner();
     }
 
+    /**
+     * This method gonna just Marshall the DVDs objects and write them to a File
+     * to virtual memory (Map)
+     */
     private void saveAllDVDs() throws Exception {
         view.displaySavingDVDBanner();
         dao.saveDVDs();
         view.displaySavingDVDSuccessBanner();
+    }
+
+    /**
+     * Two utility methods for refactoring sake
+     */
+    private void unknownCommand() {
+        view.displayUnknownCommandBanner();
+    }
+
+    private void exitMessage() {
+        view.displayExitBanner();
     }
 }

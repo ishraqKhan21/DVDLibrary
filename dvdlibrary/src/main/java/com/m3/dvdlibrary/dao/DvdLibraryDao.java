@@ -16,7 +16,7 @@ public interface DvdLibraryDao {
         
         DVD removeDVD(String title);
         
-        void removeDVDs(List<DVD> titles);
+        void removeDVDs(List<String> titles);
         
         DVD updateDVD(String title, DVD dvd);// call addDVD
         
@@ -25,8 +25,6 @@ public interface DvdLibraryDao {
         DVD getDVD(String title); // search dvd by title
         
         List<DVD> getAllDVDs();
-        
-        void displayDVDinfo(DVD dvd, String info); // display dvd.get(info)
         
         void loadDVDs()throws Exception; // load DVDs library from the File
         

@@ -7,17 +7,20 @@ package com.m3.dvdlibrary.dto;
  */
 public class DVD {
 
-    private final String title;
-    private String releaseDate;
-    private String mpaaRating;
-    private String directorName;
-    private String studio;
-    private String review;
+    private final String title; // read only field to pass to constructor
+    private String releaseDate; // private field
+    private String mpaaRating; // private field
+    private String directorName; // private field
+    private String studio; // private field
+    private String review; // private field
     
+    // Constructor
     public DVD(String title) {
         this.title = title;
     }
 
+    /* All the getters & setters */
+    
     public String getTitle() {
         return title;
     }
