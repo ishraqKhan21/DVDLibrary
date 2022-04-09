@@ -20,24 +20,33 @@ public class DvdLibraryFileImpl implements DvdLibraryDao {
     public static final String DVDS_FILE = "dvdlibrary.txt";// a constant to hold the file
     public static final String DELIMITER = "::"; // a constant to hold the delimiter
 
-// for virtual storage
-    private final Map<String, DVD> DVDs = new HashMap<>();
+    private final Map<String, DVD> DVDs = new HashMap<>(); // virtual && non persistent storage
 
     /* Methods that specific to DvdLibrary*/
+    
     // unMarshallDVD method as per pattern <title>::<release date>::<mpaa rating>::<director name>::<studio>::<review>
-    private DVD unMarshallDVD(String DVDAsText) {
-        String[] DVDTokens = DVDAsText.split(DELIMITER);
-
-        String title = DVDTokens[0];
-        DVD DVDFromFile = new DVD(title);
-
-        DVDFromFile.setReleaseDate(DVDTokens[1]); // release date
-        DVDFromFile.setMpaaRating(DVDTokens[2]); // mpaaRating
-        DVDFromFile.setDirectorName(DVDTokens[3]); //director name
-        DVDFromFile.setStudio(DVDTokens[4]); // studio
-        DVDFromFile.setReview(DVDTokens[5]); // review
-
-        return DVDFromFile; // return the newly created DVD from File
+    private DVD unMarshallDVD(String DVDAsText) throws NullPointerException{
+        
+        String title;
+        String[] DVDTokens = null; // ** watch for NullPointerException!!
+        DVD DVDFromFile = null; // ** watch for NullPointerException!!
+        
+        if (DVDAsText.length() > 0) {
+            DVDTokens = DVDAsText.split(DELIMITER);
+            
+             if (DVDTokens != null) {
+            title = DVDTokens[0];
+            DVDFromFile = new DVD(title);
+            }
+        }
+        if(DVDFromFile != null){
+            DVDFromFile.setReleaseDate(DVDTokens[1]); // release date
+            DVDFromFile.setMpaaRating(DVDTokens[2]); // mpaaRating
+            DVDFromFile.setDirectorName(DVDTokens[3]); //director name
+            DVDFromFile.setStudio(DVDTokens[4]); // studio
+            DVDFromFile.setReview(DVDTokens[5]); // review
+        }
+            return DVDFromFile; // return the newly created DVD from File  
     }
 
     /* Convert DVD info from virtual memory object into a line of text to be written later into a File
@@ -48,7 +57,7 @@ public class DvdLibraryFileImpl implements DvdLibraryDao {
         dvdAsText += dvd.getMpaaRating() + DELIMITER; // title::relase date::mpaa rating::
         dvdAsText += dvd.getDirectorName() + DELIMITER; // title::relase date::mpaa rating::director name::
         dvdAsText += dvd.getStudio() + DELIMITER; // title::relase date::mpaa rating::studio::
-        dvdAsText += dvd.getReview() + DELIMITER; // title::relase date::mpaa rating::review
+        dvdAsText += dvd.getReview(); // title::relase date::mpaa rating::review
 
         return dvdAsText; // return the fiinal built String/Text
     }
@@ -109,22 +118,23 @@ public class DvdLibraryFileImpl implements DvdLibraryDao {
     // Load DVDs: Read the File and unmarshall it line by line to the virtual memory
     @Override
     public void loadDVDs() throws Exception {
-        Scanner scanner;
-        scanner = new Scanner(
+        Scanner file;
+        file = new Scanner(
                 new BufferedReader(
                         new FileReader(DVDS_FILE)));
 
         String currentLine; // currentLine holds the most recent line read from the file
         DVD currentDVD;  // currentDVD holds the most recent DVD unmarshalled
 
-        while (scanner.hasNextLine()) {
-            currentLine = scanner.nextLine();
+        while (file.hasNextLine()) {
+            currentLine = file.nextLine();
             currentDVD = unMarshallDVD(currentLine);
-
-            DVDs.put(currentDVD.getTitle(), currentDVD);
+            
+            if(currentDVD != null) // unMarshall might throw NullPointerException
+                DVDs.put(currentDVD.getTitle(), currentDVD); 
         }
         // releaseing ressources
-        scanner.close();
+        file.close();
     }
 
     // Save DVDs: iterate through the HashMap and marshall each object && write it to the File.
